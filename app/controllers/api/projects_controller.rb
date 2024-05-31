@@ -21,6 +21,11 @@ class Api::ProjectsController < ApplicationController
     end
   end
 
+  def destroy
+    project = Project.find(params[:id])
+    project.destroy
+  end
+
   private
 
   def authenticate_user_from_token!

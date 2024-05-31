@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :projects, only: %i[index show create]
+    resources :projects, only: %i[index show create destroy]
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
