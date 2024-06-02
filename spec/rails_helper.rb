@@ -65,6 +65,12 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include RequestSpecHelper, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
+
+  config.after(:suite) do
+    Pathname(ActiveStorage::Blob.service.root).each_child do |path|
+      path.rmtree if path.directory?
+    end
+  end
 end
 
 Shoulda::Matchers.configure do |config|

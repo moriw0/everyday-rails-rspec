@@ -69,4 +69,9 @@ RSpec.describe Note, type: :model do
     # noteのuser_idを使ってデータベースにアクセスすることはない
     expect(note.user_name).to eq 'Fake User'
   end
+
+  it 'has one attached attachment' do
+    note = FactoryBot.create :note, :with_attachment
+    expect(note.attachment).to be_attached
+  end
 end
