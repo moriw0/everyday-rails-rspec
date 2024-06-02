@@ -4,20 +4,20 @@ RSpec.describe "Tasks", type: :system do
   let(:user) { FactoryBot.create(:user) }
   let(:project) {
     FactoryBot.create(:project,
-                      name: "RSpec tutorial",
-                      owner: user)
+      name: 'RSpec tutorial',
+      owner: user)
   }
-  let!(:task) { project.tasks.create!(name: "Finish RSpec tutorial") }
+  let!(:task) { project.tasks.create!(name: 'Finish RSpec tutorial') }
 
-  scenario "user toggles a task", js: true do
+  scenario 'user toggles a task', js: true do
     sign_in user
-    go_to_project "RSpec tutorial"
+    go_to_project 'RSpec tutorial'
 
-    complete_task "Finish RSpec tutorial"
-    expect_complete_task "Finish RSpec tutorial"
+    complete_task 'Finish RSpec tutorial'
+    expect_complete_task 'Finish RSpec tutorial'
 
-    undo_complete_task "Finish RSpec tutorial"
-    expect_incomplete_task "Finish RSpec tutorial"
+    undo_complete_task 'Finish RSpec tutorial'
+    expect_incomplete_task 'Finish RSpec tutorial'
   end
 
   def go_to_project(name)
