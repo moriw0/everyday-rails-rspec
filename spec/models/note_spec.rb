@@ -4,25 +4,23 @@ RSpec.describe Note, type: :model do
   let(:user) { FactoryBot.create(:user) }
   let(:project) { FactoryBot.create(:project, owner: user) }
 
-  it 'generates associated data from a factory' do
-    note = FactoryBot.create(:note)
-    puts "This note's project is #{note.project.inspect}"
-    puts "This note's user is #{note.user.inspect}"
-  end
+  describe 'validations' do
+    it 'is valid with a user, project, and message' do
+      note = Note.new(
+        message: 'This is a simple note.',
+        user: user,
+        project: project
+      )
+      expect(note).to be_valid
+    end
 
-  it 'is valid with a user, project, and message' do
-    note = Note.new(
-      message: 'This is a simple note.',
-      user: user,
-      project: project
-    )
-    expect(note).to be_valid
-  end
+    it { should belong_to :project }
 
-  it 'is invalid without a message' do
-    note = Note.new(message: nil)
-    note.valid?
-    expect(note.errors[:message]).to include("can't be blank")
+    it { should belong_to :user }
+
+    it { should validate_presence_of :message }
+
+    it { should have_one_attached :attachment }
   end
 
   describe 'search message for a term' do
