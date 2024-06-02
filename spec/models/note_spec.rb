@@ -58,4 +58,17 @@ RSpec.describe Note, type: :model do
       end
     end
   end
+
+  it 'delegates name to the user who created it' do
+    # テストダブルでnameという属性を与えている
+    # Userモデルではfirst_name + last_nameを返すnameメソッド
+    # user = double('user', name: 'Fake User')
+    user = instance_double('User', name: 'Fake User')
+    note = Note.new
+    # スタブによってnoteにuserダブルを教え込んでいる
+    allow(note).to receive(:user).and_return(user)
+    # noteはdelegateされたuser_name(name)を使用可能になる
+    # noteのuser_idを使ってデータベースにアクセスすることはない
+    expect(note.user_name).to eq 'Fake User'
+  end
 end
