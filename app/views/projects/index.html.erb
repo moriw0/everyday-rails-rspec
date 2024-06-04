@@ -5,6 +5,12 @@
     <i class="bi bi-plus-lg" aria-hidden="true"></i>
     New Project
   <% end %>
+
+  <% if current_page? projects_path(show_all: true) %>
+    <%= link_to 'Show Only On going Projects', projects_path %>
+  <% else %>
+    <%= link_to 'Show All Projects', projects_path(show_all: true) %>
+  <% end %>
 </h1>
 
 

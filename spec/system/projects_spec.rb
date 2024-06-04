@@ -3,6 +3,51 @@ require 'rails_helper'
 RSpec.describe "Projects", type: :system do
   let(:user) { FactoryBot.create(:user) }
 
+  describe '#index' do
+    let!(:completed_project) {
+      FactoryBot.create(:project,
+        name: 'Completed Project',
+        owner: user,
+        completed: true)
+    }
+    let!(:on_going_project) {
+      FactoryBot.create(:project,
+        name: 'On Going Project',
+        owner: user,
+        completed: false)
+    }
+
+    it 'shows only on going projects' do
+      sign_in_and_vist_root_path(user)
+
+      visit projects_path
+
+      expect(page).to have_content 'On Going Project'
+      expect(page).to_not have_content 'Completed Project'
+    end
+
+    it 'switches showing projects' do
+      sign_in_and_vist_root_path(user)
+
+      visit projects_path
+
+      expect(page).to_not have_content 'Completed Project'
+      expect(page).to have_content 'On Going Project'
+
+      expect(page).to_not have_link 'Show Only On going Projects'
+      click_link 'Show All Projects'
+
+      expect(page).to have_content 'Completed Project'
+      expect(page).to have_content 'On Going Project'
+
+      expect(page).to_not have_link 'Show All Projects'
+      click_link 'Show Only On going Projects'
+
+      expect(page).to_not have_content 'Completed Project'
+      expect(page).to have_content 'On Going Project'
+    end
+  end
+
   describe '#new' do
     scenario 'user creates a new project' do
       sign_in_and_vist_root_path(user)

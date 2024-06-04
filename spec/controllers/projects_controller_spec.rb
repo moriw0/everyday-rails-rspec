@@ -221,7 +221,7 @@ RSpec.describe ProjectsController, type: :controller do
     end
   end
 
-  describe 'complete', :focus do
+  describe 'complete' do
     context 'as an authenticated user' do
       let!(:project) { FactoryBot.create(:project, completed: nil) }
 
