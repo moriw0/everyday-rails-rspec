@@ -4,7 +4,11 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
-    @projects = current_user.projects
+    if params[:show_all] == 'true'
+      @projects = current_user.projects
+    else
+      @projects = current_user.projects.where(completed: false)
+    end
   end
 
   # GET /projects/1 or /projects/1.json
@@ -61,9 +65,9 @@ class ProjectsController < ApplicationController
   def complete
     if @project.update(completed: true)
       redirect_to @project,
-                  notice: "Congratulations, this project is complete!"
+        notice: "Congratulations, this project is complete!"
     else
-      redirect_to @project, alert: "Unable to complete project."
+      redirect_to @project, alert: 'Unable to complete project.'
     end
   end
 

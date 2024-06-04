@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe UserMailer, type: :mailer do
-  describe "welcome_email" do
+  describe ' welcome_email' do
     let(:user) { FactoryBot.create(:user) }
     let(:mail) { UserMailer.welcome_email(user) }
 
@@ -9,19 +9,19 @@ RSpec.describe UserMailer, type: :mailer do
       expect(mail.to).to eq [user.email]
     end
 
-    it "sends from the support email address" do
-      expect(mail.from).to eq ["support@example.com"]
+    it 'sends from the support email address' do
+      expect(mail.from).to eq ['support@example.com']
     end
 
-    it "sends with the correct subject" do
-      expect(mail.subject).to eq "Welcome to Projects!"
+    it 'sends with the correct subject' do
+      expect(mail.subject).to eq 'Welcome to Projects!'
     end
 
-    it "greets the user by first name" do
+    it 'greets the user by first name' do
       expect(mail.body).to match(/Hello #{user.first_name},/)
     end
 
-    it "reminds the user of the registered email address" do
+    it 'reminds the user of the registered email address' do
       expect(mail.body).to match user.email
     end
   end

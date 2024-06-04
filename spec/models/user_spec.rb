@@ -33,4 +33,26 @@ RSpec.describe User, type: :model do
     user = FactoryBot.build(:user, first_name: 'John', last_name: 'Doe')
     expect(user.name).to eq 'John Doe'
   end
+
+  # ユーザー作成時にコールバックで以下メソッドが呼び出されることを検証
+  # def send_welcome_email
+  #   UserMailer.welcome_email(self).deliver_later
+  # end
+  it 'sends a welcome email on account creation' do
+    # メソッドチェーンを許可する
+    allow(UserMailer).to \
+      receive_message_chain(:welcome_email, :deliver_later)
+    user = FactoryBot.create(:user)
+    # ユーザー作成時に既に実行したことを検証
+    expect(UserMailer).to have_received(:welcome_email).with(user)
+  end
+
+  it 'performs geododing', vcr: true do
+    user = FactoryBot.create(:user, last_sign_in_ip: '161.185.207.20')
+    expect {
+      user.geocode
+  }.to change(user, :location).
+    from(nil).
+    to('New York City, New York, US')
+  end
 end
